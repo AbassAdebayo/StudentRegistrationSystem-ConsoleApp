@@ -36,4 +36,19 @@ public class StudentRepository
         }
     }
     
+    public void GetAllStudents()
+    {
+        string query = "select * from student";
+        using (MySqlCommand command = new MySqlCommand(query, _connection))
+        {
+            MySqlDataReader reader = command.ExecuteReader();
+            int count = 1;
+            while (reader.Read())
+            {
+                Console.WriteLine($"Student {count}\n\tFirst Name: {reader["firstName"]}\n\tLast Name: {reader["lastName"]}\n\tReg Number: {reader["regNumber"]}\n\tEmail: {reader["email"]}");
+                count++;
+            }
+        }
+    }
+    
 }
