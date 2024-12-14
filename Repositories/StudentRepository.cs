@@ -15,7 +15,7 @@ public class StudentRepository
     public bool CreateStudent(Student student)
     {
         string query =
-            @"insert into student (firstname, lastname, email, phoneNumber, regNumber, dateOfBirth, gender, dateOfRegistration) 
+            @"insert into Students (firstname, lastname, email, phoneNumber, regNumber, dateOfBirth, gender, dateOfRegistration) 
            values (@FirstName, @LastName, @Email, @PhoneNumber, @RegNumber, @DateOfBirth, @Gender, @DateOfRegistration)";
         
         int result = 0;
@@ -38,7 +38,7 @@ public class StudentRepository
     
     public void GetAllStudents()
     {
-        string query = "select * from student";
+        string query = "select * from students";
         using (MySqlCommand command = new MySqlCommand(query, _connection))
         {
             MySqlDataReader reader = command.ExecuteReader();
