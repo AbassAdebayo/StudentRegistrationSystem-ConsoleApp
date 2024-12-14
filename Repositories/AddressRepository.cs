@@ -15,8 +15,8 @@ public class AddressRepository
     public bool CreateAddress(Address address)
     {
         string query =
-            @"insert into Addresses (street, city, state, zipCode, addressLine, country, regNumber) 
-            values(@Street, @City, @State, @ZipCode, @AddressLine, @Country, @RegNumber)";
+            @"insert into Addresses (street, city, state, zipCode, addressLine, country, addressRegNumber) 
+            values(@Street, @City, @State, @ZipCode, @AddressLine, @Country, @AddressRegNumber)";
 
         int result = 0;
         try
@@ -30,7 +30,7 @@ public class AddressRepository
                 command.Parameters.AddWithValue("@ZipCode", address.ZipCode);
                 command.Parameters.AddWithValue("@AddressLine", address.AddressLine);
                 command.Parameters.AddWithValue("@Country", address.Country);
-                command.Parameters.AddWithValue("@RegNumber", address.RegNumber);
+                command.Parameters.AddWithValue("@RegNumber", address.AddressRegNumber);
 
                 result = command.ExecuteNonQuery();
                 return result == 1 ? true : false;
@@ -49,7 +49,7 @@ public class AddressRepository
     public bool UpdateAddress(Address address)
     {
         string query =
-            @"update Addresses SET zipCode = @ZipCode, street = @Street, city = @City, addressLine = @AddressLine, country = @Country where regNumber = @RegNumber";
+            @"update Addresses SET zipCode = @ZipCode, street = @Street, city = @City, addressLine = @AddressLine, country = @Country where addressRegNumber = @AddressRegNumber";
 
         int result = 0;
 
@@ -65,7 +65,7 @@ public class AddressRepository
                     command.Parameters.AddWithValue("@City", address.City);
                     command.Parameters.AddWithValue("@AddressLine", address.AddressLine);
                     command.Parameters.AddWithValue("@Country", address.Country);
-                    command.Parameters.AddWithValue("@RegNumber", address.RegNumber);
+                    command.Parameters.AddWithValue("@RegNumber", address.AddressRegNumber);
 
                     result = command.ExecuteNonQuery();
                     return result > 0 ? true : false;
@@ -76,8 +76,33 @@ public class AddressRepository
         catch (MySqlException ex)
         {
             Console.WriteLine($"Database Error: {ex.Message}");
-            throw new ApplicationException($"An error occured while trying to update address info for Reg No: {address.RegNumber}", ex);
+            throw new ApplicationException($"An error occured while trying to update address info for Reg No: {address.AddressRegNumber}", ex);
         }
 
+    }
+
+    public void FindAddressesByRegNumber(string addressRegNumber)
+    {
+        string query = "select * from Addresses where addressRegNumber = @AddressRegNumber";
+
+        try
+        {
+            _connection.Open();
+            using (MySqlCommand command = new MySqlCommand(query, _connection))
+            {
+                MySqlDataReader reader = command.ExecuteReader();
+                int count = 0;
+                while (reader.Read())
+                {
+                    Console.WriteLine($"Address {count}\n\tAddress Line: {reader["addressLine"]}\n\tZip Code: {reader["zipCode"]}\n\tAddress Registration Number: {reader["addressRegNumber"]}\n\tCity: {reader["city"]}\n\tState: {reader["state"]}\n\tCountry: {reader["country"]}");
+                    count++;
+                }
+            }
+        }
+        catch (MySqlException ex)
+        {
+            Console.WriteLine($"Database Error: {ex.Message}");
+            throw new ApplicationException($"An error occured while trying to update address info for Reg No: {addressRegNumber}");
+        }
     }
 }
