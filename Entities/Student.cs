@@ -8,6 +8,7 @@ public class Student
     public string Email { get; private set; }
     public string PhoneNumber { get; private set; }
     public DateTime DateOfBirth { get; private set; }
+    public int Age { get; private set; }
     public string Gender { get; private set; }
     public string RegNumber { get; private set; }
     public DateTime DateOfRegistration { get; private set; }
@@ -17,7 +18,7 @@ public class Student
         return $"{firstName} {lastName}";
     }
     
-    public int Age()
+    public int GetAge()
     {
         int age =  DateTime.UtcNow.Year - DateOfBirth.Year;
         if (DateTime.UtcNow < DateOfBirth.AddYears(age))
@@ -35,6 +36,7 @@ public class Student
         Email = email;
         PhoneNumber = phoneNumber;
         DateOfBirth = dateOfBirth;
+        Age = GetAge();
         Gender = gender;
         RegNumber = GenerateRegNumber();
         DateOfRegistration = DateTime.Now;
@@ -48,6 +50,7 @@ public class Student
         Email = email;
         PhoneNumber = phoneNumber;
         DateOfBirth = dateOfBirth;
+        Age = GetAge();
         Gender = gender;
         RegNumber = regNumber;
         DateOfRegistration = dateOfRegistration;
@@ -66,7 +69,7 @@ public class Student
     
     public override string ToString()
     {
-        return $"{FullName(firstName: FirstName, lastName: LastName)}\t{Email}\t{PhoneNumber}\t{Age()}\t{Gender}\t{DateOfRegistration:dd/MM/yyyy}";
+        return $"{FullName(firstName: FirstName, lastName: LastName)}\t{Email}\t{PhoneNumber}\t{Age}\t{Gender}\t{DateOfRegistration:dd/MM/yyyy}";
     }
 
     public void UpdateInfo()
@@ -99,7 +102,7 @@ public class Student
                     PhoneNumber = Console.ReadLine();
                     break;
                 case 5:
-                    Console.WriteLine("Enter your date Of birth(MM/DD/yyyy): ");
+                    Console.WriteLine("Enter your date Of birth (MM/DD/yyyy): ");
                     DateOfBirth = DateTime.Parse(Console.ReadLine());
                     break;
                 case 6:
