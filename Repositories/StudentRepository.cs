@@ -64,4 +64,29 @@ public class StudentRepository
         }
     }
     
+    public void FindStudentByRegNumber(string regNumber)
+    {
+        string query = "select * from Students where regNumber = @RegNumber";
+
+        try
+        {
+            _connection.Open();
+            using (MySqlCommand command = new MySqlCommand(query, _connection))
+            {
+                MySqlDataReader reader = command.ExecuteReader();
+                int count = 0;
+                while (reader.Read())
+                {
+                    Console.WriteLine($"Student({reader["regNumber"]})'s info:\n\tFirst Name: {reader["firstName"]}\n\tLast Name: {reader["lastName"]}\n\tReg Number: {reader["regNumber"]}\n\tEmail: {reader["email"]}");
+                    count++;
+                }
+            }
+        }
+        catch (MySqlException ex)
+        {
+            Console.WriteLine($"Database Error: {ex.Message}");
+            throw new ApplicationException($"An error occured while trying to find student with Reg No: {regNumber}");
+        }
+    }
+    
 }
