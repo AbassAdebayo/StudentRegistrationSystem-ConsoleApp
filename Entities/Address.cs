@@ -7,18 +7,18 @@ public class Address
     public string City { get; private set; }
     public string State { get; private set; }
     public string AddressLine { get; private set; }
-    public string RegNumber { get; private set; }
+    public string AddressRegNumber { get; private set; }
     public string Country { get; private set; }
 
     public Address(int zipCode, string street, string city, string state, string addressLine,
-        string regNumber, string country)
+        string addressRegNumber, string country)
     {
         ZipCode = zipCode;
         Street = street;
         City = city;
         State = state;
         AddressLine = addressLine;
-        RegNumber = regNumber;
+        AddressRegNumber = addressRegNumber;
         Country = country;
     }
 
