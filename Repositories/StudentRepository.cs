@@ -19,26 +19,39 @@ public class StudentRepository
            values (@FirstName, @LastName, @Email, @PhoneNumber, @RegNumber, @DateOfBirth, @Gender, @DateOfRegistration)";
         
         int result = 0;
-        using (MySqlCommand command = new MySqlCommand(query, _connection))
+
+        try
         {
-            command.Parameters.AddWithValue("@FirstName", student.FirstName);
-            command.Parameters.AddWithValue("@LastName", student.LastName);
-            command.Parameters.AddWithValue("@Email", student.Email);
-            command.Parameters.AddWithValue("@PhoneNumber", student.PhoneNumber);
-            command.Parameters.AddWithValue("@RegNumber", student.RegNumber);
-            command.Parameters.AddWithValue("@DateOfBirth", student.DateOfBirth);
-            command.Parameters.AddWithValue("@Gender", student.Gender);
-            command.Parameters.AddWithValue("@DateOfRegistration", student.DateOfRegistration.ToString("yyyy-MM-dd HH:MM:ss"));
+            _connection.Open();
+            using (MySqlCommand command = new MySqlCommand(query, _connection))
+            {
+                command.Parameters.AddWithValue("@FirstName", student.FirstName);
+                command.Parameters.AddWithValue("@LastName", student.LastName);
+                command.Parameters.AddWithValue("@Email", student.Email);
+                command.Parameters.AddWithValue("@PhoneNumber", student.PhoneNumber);
+                command.Parameters.AddWithValue("@RegNumber", student.RegNumber);
+                command.Parameters.AddWithValue("@DateOfBirth", student.DateOfBirth);
+                command.Parameters.AddWithValue("@Gender", student.Gender);
+                command.Parameters.AddWithValue("@DateOfRegistration", student.DateOfRegistration.ToString("yyyy-MM-dd HH:MM:ss"));
             
-            result = command.ExecuteNonQuery();
+                result = command.ExecuteNonQuery();
             
-            return result == 1 ? true : false;
+                return result == 1 ? true : false;
+            }
         }
+        catch (MySqlException ex)
+        {
+            Console.WriteLine($"Database Error: {ex.Message}");
+            throw new ApplicationException("An error occured while trying to create student");
+        }
+        
     }
     
     public void GetAllStudents()
     {
         string query = "select * from students";
+        
+        _connection.Open();
         using (MySqlCommand command = new MySqlCommand(query, _connection))
         {
             MySqlDataReader reader = command.ExecuteReader();
