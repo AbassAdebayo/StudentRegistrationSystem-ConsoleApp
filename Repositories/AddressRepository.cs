@@ -81,7 +81,7 @@ public class AddressRepository
 
     }
 
-    public void FindAddressesByRegNumber(string addressRegNumber)
+    public void FindAddressByRegNumber(string addressRegNumber)
     {
         string query = "select * from Addresses where addressRegNumber = @AddressRegNumber";
 
@@ -102,7 +102,7 @@ public class AddressRepository
         catch (MySqlException ex)
         {
             Console.WriteLine($"Database Error: {ex.Message}");
-            throw new ApplicationException($"An error occured while trying to update address info for Reg No: {addressRegNumber}");
+            throw new ApplicationException($"An error occured while trying to find address with Reg No: {addressRegNumber}");
         }
     }
 }
