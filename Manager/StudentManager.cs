@@ -50,6 +50,9 @@ public class StudentManager
 
         _studentRepository.FindStudentByRegNumber(regNumber);
     }
-    
-    
+
+    public void GetAllStudents()
+    {
+        _studentRepository.GetAllStudents();
+    }
 }
