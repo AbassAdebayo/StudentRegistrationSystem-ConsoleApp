@@ -15,8 +15,8 @@ public class StudentRepository
     public bool CreateStudent(Student student)
     {
         string query =
-            @"insert into Students (firstname, lastname, email, phoneNumber, regNumber, dateOfBirth, gender, dateOfRegistration) 
-           values (@FirstName, @LastName, @Email, @PhoneNumber, @RegNumber, @DateOfBirth, @Gender, @DateOfRegistration)";
+            @"insert into Students (firstname, lastname, email, phoneNumber, regNumber, dateOfBirth, age, gender, dateOfRegistration) 
+           values (@FirstName, @LastName, @Email, @PhoneNumber, @RegNumber, @DateOfBirth, @Age, @Gender, @DateOfRegistration)";
         
         int result = 0;
 
@@ -31,6 +31,7 @@ public class StudentRepository
                 command.Parameters.AddWithValue("@PhoneNumber", student.PhoneNumber);
                 command.Parameters.AddWithValue("@RegNumber", student.RegNumber);
                 command.Parameters.AddWithValue("@DateOfBirth", student.DateOfBirth);
+                command.Parameters.AddWithValue("@Age", student.Age);
                 command.Parameters.AddWithValue("@Gender", student.Gender);
                 command.Parameters.AddWithValue("@DateOfRegistration", student.DateOfRegistration.ToString("yyyy-MM-dd HH:MM:ss"));
             

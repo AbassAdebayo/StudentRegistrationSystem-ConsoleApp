@@ -15,31 +15,34 @@ public class StudentManager
 
     public void AddStudent()
     {
-        Console.WriteLine("Enter Your FirstName: ");
+        Console.Write("Enter Your FirstName: ");
         string firstName = Console.ReadLine();
 
-        Console.WriteLine("Enter Your LastName: ");
+        Console.Write("Enter Your LastName: ");
         string lastName = Console.ReadLine();
 
-        Console.WriteLine("Enter Your Email: ");
+        Console.Write("Enter Your Email: ");
         string email = Console.ReadLine();
 
-        Console.WriteLine("Enter Your Phone Number: ");
+        Console.Write("Enter Your Phone Number: ");
         string phoneNumber = Console.ReadLine();
 
-        Console.WriteLine("Enter Your Date of birth(MM/DD/yyyy): ");
-        DateTime dateOfBirth = DateTime.Parse(Console.ReadLine());
-
-        Console.WriteLine("Enter Your Gender: ");
+        Console.Write("Enter Your Date of birth(MM/DD/yyyy): ");
+        string dateInput = Console.ReadLine();
+           
+        DateTime dateOfBirth = DateTime.ParseExact(dateInput, "MM/dd/yyyy", System.Globalization.CultureInfo.InvariantCulture);
+            
+        Console.Write("Enter Your Gender: ");
         string gender = Console.ReadLine();
 
         var student = new Student(firstName, lastName, email, phoneNumber, dateOfBirth, gender);
+        student.Age = student.GetAge();
 
         if (student.GetAge() < 18)
         {
-            Console.WriteLine("Your age must be at least 18 years old to proceed to registration.");
+            Console.WriteLine("Your age must be at least 18 years old to proceed to registration!");
+            return;
         }
-
         _studentRepository.CreateStudent(student);
     }
 
@@ -50,6 +53,9 @@ public class StudentManager
 
         _studentRepository.FindStudentByRegNumber(regNumber);
     }
-    
-    
+
+    public void GetAllStudents()
+    {
+        _studentRepository.GetAllStudents();
+    }
 }
