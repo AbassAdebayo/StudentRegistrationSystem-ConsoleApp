@@ -8,7 +8,7 @@ public class Student
     public string Email { get; private set; }
     public string PhoneNumber { get; private set; }
     public DateTime DateOfBirth { get; private set; }
-    public int Age { get; private set; }
+    public int Age { get; set; }
     public string Gender { get; private set; }
     public string RegNumber { get; private set; }
     public DateTime DateOfRegistration { get; private set; }
@@ -128,7 +128,7 @@ public class Student
     public static Student ConvertToStudent(string line)
     {
         string[] content = line.Split("\t");
-        return new Student(content[0], content[1], content[2], content[3], content[4], DateTime.Parse(content[5]),(content[6]), DateTime.Parse(content[7]));
+        return new Student(content[0], content[1], content[2], content[3], content[4], DateTime.Parse(content[5]),  (content[6]), DateTime.Parse(content[7]));
 
     }
 }
