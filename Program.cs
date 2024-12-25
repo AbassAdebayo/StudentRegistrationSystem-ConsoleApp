@@ -9,10 +9,12 @@ delegate void PrintMenuDelegate();
 class Program
 {
     private static StudentManager _studentManager;
+    private static FileManager _fileManager;
     static void Main(string[] args)
     {
         string connectionString  = "server=localhost;user=root;database=student_app;password=DefinedCodes";
         MySqlConnection connection = new MySqlConnection(connectionString);
+        
          _studentManager = new StudentManager(connection);
         Run();
     }
