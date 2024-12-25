@@ -1,3 +1,4 @@
+using System.Reflection.Metadata;
 using MySql.Data.MySqlClient;
 using SchoolAppManager.Entities;
 using SchoolAppManager.Repositories;
@@ -7,10 +8,19 @@ namespace SchoolAppManager.Manager;
 public class StudentManager
 {
     private readonly StudentRepository _studentRepository;
-
+    private readonly FileManager _filePath;
     public StudentManager(MySqlConnection mySqlConnection)
     {
         _studentRepository = new StudentRepository(mySqlConnection);
+        
+        _filePath.FilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+            "StudentAppManager",
+            "Students.csv");
+        if (!Directory.Exists(_filePath.FilePath))
+        {
+            Directory.CreateDirectory(_filePath.FilePath);
+        }
+        
     }
 
     public void AddStudent()
@@ -43,6 +53,9 @@ public class StudentManager
             Console.WriteLine("Your age must be at least 18 years old to proceed to registration!");
             return;
         }
+        
+        FileManager fileManager = new FileManager(_filePath.FilePath);
+        fileManager.Write(student.ToString());
         _studentRepository.CreateStudent(student);
     }
 
